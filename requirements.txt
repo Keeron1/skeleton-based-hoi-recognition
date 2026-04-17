@@ -1,3 +1,5 @@
+pyyaml
+python-dotenv
 ultralytics
 opencv-python
 torch

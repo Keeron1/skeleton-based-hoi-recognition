@@ -1,0 +1,3 @@
+# For Object detector, tracker, ...
+yolo:
+  model_type: yolov8m

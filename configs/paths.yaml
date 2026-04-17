@@ -1,0 +1,6 @@
+dataset:
+  raw: data/raw
+  processed: data/processed
+
+outputs:
+  videos: outputs/videos
