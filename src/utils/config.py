@@ -1,6 +1,7 @@
 import os
 import yaml
 from dotenv import load_dotenv
+from pathlib import Path
 
 # Load .env file
 load_dotenv()
@@ -14,14 +15,17 @@ def load_yaml(path):
 
 class Config:
     def __init__(self):
+        # Set project root
+        self.project_root = Path(__file__).resolve().parents[2]
+        
         # Load env variables
         self.env = os.getenv("ENV", "local") # Get ENV or default to local
         self.data_root = os.getenv("DATA_ROOT", "data") # Get environment dataset path
 
         # Load yaml files
         self.configs = {
-            "paths": load_yaml("configs/paths.yaml"), # Where things are located
-            "model": load_yaml("configs/model.yaml") # How models are configured
+            "paths": load_yaml(self.project_root / "configs/paths.yaml"), # Where things are located
+            "model": load_yaml(self.project_root / "configs/model.yaml") # How models are configured
         }
     
     def get(self, config_name, key_path):
