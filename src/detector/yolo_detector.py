@@ -9,7 +9,11 @@ class YOLODetector:
         self.model.info()
 
     def predict(self, frame):
-        results = self.model(frame)
+        results = self.model(
+            source=frame, 
+            save=True, 
+            verbose=True
+        )
         return results
     
     def train(self, dataset):
@@ -19,5 +23,6 @@ class YOLODetector:
             pretrained=True,
             epochs=100,
             batch=16,
-            imgsz=640)
+            imgsz=640
+        )
         return results
