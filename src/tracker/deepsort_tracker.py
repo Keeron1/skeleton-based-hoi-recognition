@@ -9,9 +9,6 @@ class DeepSortTracker:
             nms_max_overlap=1.0
         )
         self.project_root = project_root
-        
-        # Display model information
-        self.model.info()
 
     def update(self, detections, frame):
         return self.tracker.update_tracks(detections, frame=frame)
@@ -26,17 +23,21 @@ class DeepSortTracker:
         bbox_xywh = boxes.xywh.cpu().numpy()
         conf = boxes.conf.cpu().numpy()
         cls_ids = boxes.cls.cpu().numpy()
+        names = results[0].names
 
         for i in range(len(bbox_xywh)):
             x_c, y_c, w, h = bbox_xywh[i]
 
             x1 = x_c - w / 2
             y1 = y_c - h / 2
+            
+            class_name = names[int(cls_ids[i])]
 
             detections.append((
                 [x1, y1, w, h],
                 float(conf[i]),
-                int(cls_ids[i])
+                # int(cls_ids[i])
+                class_name
             ))
 
         return detections
