@@ -14,6 +14,7 @@ class DeepSortTracker:
         return self.tracker.update_tracks(detections, frame=frame)
     
     def yolo_to_deepsort(self, results):
+        # DeepSORT expects tuples of ( [left,top,w,h], confidence, detection_class )
         human_detections = []
         object_detections = []
 
@@ -51,7 +52,8 @@ class DeepSortTracker:
                 [x1, y1, w, h],
                 float(conf[i]),
                 # int(cls_ids[i])
-                class_name
+                class_name,
+                cls_id
             ))
 
         return human_detections, object_detections
