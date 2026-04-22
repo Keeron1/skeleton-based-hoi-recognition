@@ -2,5 +2,6 @@
 .vscode/settings.json
 src/utils/__pycache__/config.cpython-314.pyc
 src/detector/__pycache__/yolo_detector.cpython-314.pyc
+venv
 *.pt
 !models/yolov8.pt

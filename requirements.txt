@@ -1,7 +1,10 @@
+
+
 pyyaml
 python-dotenv
+
 ultralytics
-opencv-python
-torch
-torchvision
+opencv-python<4.10
 deep-sort-realtime
+
+numpy>=1.26,<2
