@@ -14,7 +14,11 @@ Write-Host "Locking NumPy..."
 Write-Host "Installing base dependencies..."
 .\venv\Scripts\pip install -r requirements.txt --no-deps
 
+Write-Host "Installing missing Ultralytics dependencies..."
+.\venv\Scripts\pip install matplotlib psutil polars ultralytics-thop
+
 Write-Host "Installing OpenMMLab Tools"
+.\venv\Scripts\python -m pip install chumpy==0.70 --no-build-isolation
 .\venv\Scripts\python -m pip install openmim
 .\venv\Scripts\python -m mim install mmengine
 .\venv\Scripts\python -m mim install "mmcv==2.2.0"
