@@ -1,12 +1,20 @@
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
 class DeepSortTracker:
-    def __init__(self):
+    def __init__(self, 
+                 max_age=30, 
+                 n_init=3, 
+                 nn_budget=None,
+                 max_cosine_distance=0.2,
+                 max_iou_distance=0.7,
+                 nms_max_overlap=1.0):
         self.tracker = DeepSort(
-            # Read values from cfg
-            max_age=30,
-            n_init=3,
-            nms_max_overlap=1.0
+            max_age=max_age, # How long a track survives without detections
+            n_init=n_init, # Frames required before a track is "confirmed"
+            nn_budget=nn_budget, # Size of feature gallery per track
+            max_cosine_distance=max_cosine_distance, # Threshold for appearance matching (ReID embeddings)
+            max_iou_distance=max_iou_distance, # Fallback matching using IoU when appearance fails
+            nms_max_overlap=nms_max_overlap # Removes duplicates based on IoU overlap
         )
 
     def update(self, detections, frame):

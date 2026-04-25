@@ -3,7 +3,7 @@ import yaml
 from dotenv import load_dotenv
 from pathlib import Path
 import torch
-from schema import AppConfig, PathsConfig, YOLOConfig, HrNetConfig
+from schema import AppConfig, PathsConfig, YOLOConfig, DeepSORTConfig, HrNetConfig
 
 # Load .env file
 load_dotenv()
@@ -65,6 +65,13 @@ class Config:
         # Gets the path where the model will load or download from
         yolo_model_type = models_dir / self.get("model", "yolo.model_type") 
 
+        deepsort_max_age = self.get("model", "deepsort.max_age")
+        deepsort_n_init = self.get("model", "deepsort.n_init")
+        deepsort_nn_budget = self.get("model", "deepsort.nn_budget")
+        deepsort_max_cosine_distance = self.get("model", "deepsort.max_cosine_distance")
+        deepsort_nms_max_overlap = self.get("model", "deepsort.nms_max_overlap")
+        deepsort_max_iou_distance = self.get("model", "deepsort.max_iou_distance")
+
         # should be able to download these and store in models folder instead of online
         hrnet_model_cfg = self.get("model", "hrnet.w32_256x192_coco.model_cfg")
         hrnet_model_ckpt = self.get("model", "hrnet.w32_256x192_coco.model_ckpt")
@@ -79,6 +86,14 @@ class Config:
             ),
             yolo=YOLOConfig(
                 model_path=yolo_model_type
+            ),
+            deepsort=DeepSORTConfig(
+                max_age = deepsort_max_age,
+                n_init = deepsort_n_init,
+                nn_budget = deepsort_nn_budget,
+                max_cosine_distance = deepsort_max_cosine_distance,
+                nms_max_overlap = deepsort_nms_max_overlap,
+                max_iou_distance = deepsort_max_iou_distance
             ),
             hrnet=HrNetConfig(
                 model_cfg=hrnet_model_cfg,

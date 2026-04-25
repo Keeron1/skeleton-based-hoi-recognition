@@ -9,6 +9,15 @@ class HrNetConfig:
 @dataclass
 class YOLOConfig:
     model_path: Path
+    
+@dataclass
+class DeepSORTConfig:
+    max_age : int
+    n_init : int
+    nn_budget : int
+    max_cosine_distance : float
+    nms_max_overlap : float
+    max_iou_distance : float
 
 @dataclass
 class PathsConfig:
@@ -22,4 +31,5 @@ class AppConfig:
     device: str
     paths: PathsConfig
     yolo: YOLOConfig
+    deepsort: DeepSORTConfig
     hrnet: HrNetConfig

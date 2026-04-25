@@ -7,4 +7,10 @@ hrnet:
     model_cfg : configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py
     model_ckpt : https://download.openmmlab.com/mmpose/v1/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192-81c58e40_20220909.pth
   
-# need to add deepsort max_age, n_init, nms_max_overlap
+deepsort:
+  max_age : 30 # default 30
+  n_init : 2 # default 3
+  nn_budget : 100 # default 100
+  max_cosine_distance : 0.2 # default 0.2
+  nms_max_overlap : 1.0 # default 1.0
+  max_iou_distance : 0.6 # default 0.7
