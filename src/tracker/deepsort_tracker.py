@@ -1,14 +1,13 @@
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
 class DeepSortTracker:
-    def __init__(self, project_root = None):
+    def __init__(self):
         self.tracker = DeepSort(
             # Read values from cfg
             max_age=30,
             n_init=3,
             nms_max_overlap=1.0
         )
-        self.project_root = project_root
 
     def update(self, detections, frame):
         return self.tracker.update_tracks(detections, frame=frame)
@@ -57,3 +56,41 @@ class DeepSortTracker:
             ))
 
         return human_detections, object_detections
+    
+    def extract_deepsort_results(self, deepsort_results):
+        if len(deepsort_results) == 0:
+            return {
+                "bboxes": [],
+                "track_ids": [],
+                "class_names": []
+            }
+        
+        bboxes = []
+        track_ids = []
+        class_names = []
+        
+        # If the track is confirmed then extract its bbox, id, and class name
+        for track in deepsort_results:
+            if not track.is_confirmed():
+                continue
+
+            bbox = track.to_ltrb()
+            track_id = int(track.track_id)
+            class_name = track.get_det_class()
+            
+            bboxes.append(bbox)
+            track_ids.append(track_id)
+            class_names.append(class_name)
+  
+        return {
+            "bboxes": bboxes,
+            "track_ids": track_ids,
+            "class_names": class_names
+        }
+    
+    def run_deepsort(self, detections, frame):
+        deepsort_results = self.tracker.update(detections, frame)
+        
+        self.extract_deepsort_results(deepsort_results)
+        
+        

@@ -2,7 +2,7 @@ dataset:
   raw: data/raw
   processed: data/processed
 
-detector: models
+models: models
 
 outputs:
   videos: outputs/videos

@@ -2,6 +2,8 @@ import os
 import yaml
 from dotenv import load_dotenv
 from pathlib import Path
+import torch
+from schema import AppConfig, PathsConfig, YOLOConfig, HrNetConfig
 
 # Load .env file
 load_dotenv()
@@ -49,3 +51,38 @@ class Config:
             return value
         except KeyError:
             raise KeyError(f"Invalid config path: {key_path}")
+       
+    # Loads the whole config that the prototype needs 
+    def load_config(self) -> AppConfig:     
+        # nvidia gpu or cpu
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        dataset_path = self.get("paths", "dataset.raw")
+
+        output_videos_path = self.project_root / self.get("paths", "outputs.videos")
+        models_dir = self.project_root / self.get("paths", "models")
+
+        # Gets the path where the model will load or download from
+        yolo_model_type = models_dir / self.get("model", "yolo.model_type") 
+
+        # should be able to download these and store in models folder instead of online
+        hrnet_model_cfg = self.get("model", "hrnet.w32_256x192_coco.model_cfg")
+        hrnet_model_ckpt = self.get("model", "hrnet.w32_256x192_coco.model_ckpt")
+        
+        return AppConfig(
+            project_root=self.project_root,
+            device=device,
+            paths=PathsConfig(
+                dataset=dataset_path,
+                output_videos=output_videos_path,
+                models=models_dir
+            ),
+            yolo=YOLOConfig(
+                model_path=yolo_model_type
+            ),
+            hrnet=HrNetConfig(
+                model_cfg=hrnet_model_cfg,
+                model_ckpt=hrnet_model_ckpt
+            )
+        )
+        

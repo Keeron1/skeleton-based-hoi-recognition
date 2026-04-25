@@ -1,3 +1,10 @@
 # For Object detector, tracker, ...
 yolo:
   model_type: yolov8m
+
+hrnet:
+  w32_256x192_coco:
+    model_cfg : configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py
+    model_ckpt : https://download.openmmlab.com/mmpose/v1/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192-81c58e40_20220909.pth
+  
+# need to add deepsort max_age, n_init, nms_max_overlap
