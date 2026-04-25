@@ -98,7 +98,6 @@ class DeepSortTracker:
     
     def run_deepsort(self, detections, frame):
         deepsort_results = self.tracker.update(detections, frame)
-        
-        self.extract_deepsort_results(deepsort_results)
+        return self.extract_deepsort_results(deepsort_results)
         
         
