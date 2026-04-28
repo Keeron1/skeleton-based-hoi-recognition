@@ -3,7 +3,7 @@ import yaml
 from dotenv import load_dotenv
 from pathlib import Path
 import torch
-from schema import AppConfig, PathsConfig, YOLOConfig, DeepSORTConfig, HrNetConfig
+from .config_schema import AppConfig, PathsConfig, YOLOConfig, DeepSORTConfig, HrNetConfig
 
 # Load .env file
 load_dotenv()
@@ -18,7 +18,7 @@ def load_yaml(path):
 class Config:
     def __init__(self):
         # Set project root
-        self.project_root = Path(__file__).resolve().parents[2]
+        self.project_root = Path(__file__).resolve().parents[3]
         
         # Load env variables
         self.env = os.getenv("ENV", "local") # Get ENV or default to local
