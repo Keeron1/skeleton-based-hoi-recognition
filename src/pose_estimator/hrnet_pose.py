@@ -16,4 +16,5 @@ class HrNetPose:
         
         # model, frame, bboxes, bboxes format
         batch_results = inference_topdown(self.model, frame, bboxes, "xyxy")
+        # data_sample.pred_instances.keypoints and data_sample.pred_instances.keypoint_scores
         return batch_results
