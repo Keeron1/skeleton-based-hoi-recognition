@@ -16,6 +16,7 @@ class YOLODetector:
         )
         return results
     
+    # Trains on format: class x_center y_center width height
     def train(self, dataset):
         results = self.model.train(
             project=str(self.project_root / "runs"), # Set name of project directory where training outputs are saved

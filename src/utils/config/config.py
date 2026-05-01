@@ -57,13 +57,14 @@ class Config:
         # nvidia gpu or cpu
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
-        dataset_path = self.get("paths", "dataset.raw")
+        dataset_path = self.get("paths", "dataset.processed")
 
         output_videos_path = self.project_root / self.get("paths", "outputs.videos")
         models_dir = self.project_root / self.get("paths", "models")
 
         # Gets the path where the model will load or download from
         yolo_model_type = models_dir / self.get("model", "yolo.model_type") 
+        yolo_imgsz = self.get("model", "yolo.imgsz")
 
         deepsort_max_age = self.get("model", "deepsort.max_age")
         deepsort_n_init = self.get("model", "deepsort.n_init")
@@ -85,7 +86,8 @@ class Config:
                 models=models_dir
             ),
             yolo=YOLOConfig(
-                model_path=yolo_model_type
+                model_path=yolo_model_type,
+                imgsz=yolo_imgsz
             ),
             deepsort=DeepSORTConfig(
                 max_age = deepsort_max_age,

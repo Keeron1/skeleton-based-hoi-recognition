@@ -3,5 +3,7 @@
 src/utils/__pycache__/config.cpython-314.pyc
 src/detector/__pycache__/yolo_detector.cpython-314.pyc
 venv
+data/raw/CafeV1
+**/__pycache__
 *.pt
 !models/yolov8.pt
