@@ -39,8 +39,6 @@ class DeepSortTracker:
             cls_id = int(cls_ids[i])
             class_name = names[cls_id]
             
-            # Could check conf score here
-            
             # Sort human and non-human
             if class_name != "person":
                 x1, y1, x2, y2 = bbox_xyxy[i]
@@ -55,6 +53,7 @@ class DeepSortTracker:
             x1 = x_c - w / 2
             y1 = y_c - h / 2
 
+            # need to check if this is causing any issues
             human_detections.append((
                 [x1, y1, w, h],
                 float(conf[i]),
