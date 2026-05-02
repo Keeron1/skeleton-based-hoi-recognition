@@ -20,7 +20,8 @@ class DeepSortTracker:
     def update(self, detections, frame):
         return self.tracker.update_tracks(detections, frame=frame)
     
-    def yolo_to_deepsort(self, results):
+    # this is used for testing
+    def yolo_to_deepsort_split(self, results):
         # DeepSORT expects tuples of ( [left,top,w,h], confidence, detection_class )
         human_detections = []
         object_detections = []
@@ -52,8 +53,7 @@ class DeepSortTracker:
             x_c, y_c, w, h = bbox_xywh[i]
             x1 = x_c - w / 2
             y1 = y_c - h / 2
-
-            # need to check if this is causing any issues
+            
             human_detections.append((
                 [x1, y1, w, h],
                 float(conf[i]),
@@ -63,6 +63,36 @@ class DeepSortTracker:
             ))
 
         return human_detections, object_detections
+    
+    def yolo_to_deepsort(self, detections):
+        # DeepSORT expects tuples of ( [left,top,w,h], confidence, detection_class )
+        results = []
+
+        boxes = detections[0].boxes
+        if boxes is None:
+            return []
+
+        bbox_xyxy = boxes.xyxy.cpu().numpy()
+        bbox_xywh = boxes.xywh.cpu().numpy()
+        conf = boxes.conf.cpu().numpy()
+        cls_ids = boxes.cls.cpu().numpy()
+        # names = detections[0].names
+
+        for i in range(len(bbox_xywh)):
+            cls_id = int(cls_ids[i])
+            # class_name = names[cls_id]
+
+            x1, y1, x2, y2 = bbox_xyxy[i]
+            x_c, y_c, w, h = bbox_xywh[i]
+            
+            results.append((
+                [x1, y1, w, h],
+                float(conf[i]),
+                cls_id
+            ))
+
+        return results
+    
     
     def extract_deepsort_results(self, deepsort_results):
         if len(deepsort_results) == 0:

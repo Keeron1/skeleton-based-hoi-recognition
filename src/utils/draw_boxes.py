@@ -12,6 +12,7 @@ class DrawBoxes:
         self.font_scale = 0.5
         self.thickness = 1
     
+    # x1, y1, x2, y2
     def draw_box(self, frame, bbox, class_name, class_id=None, track_id=None):
         x1, y1, x2, y2 = map(int, bbox) # bbox coords
         label_color = (255, 0, 0) # default label color
