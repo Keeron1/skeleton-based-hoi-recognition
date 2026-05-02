@@ -69,7 +69,7 @@ class DeepSortTracker:
         results = []
 
         boxes = detections[0].boxes
-        if boxes is None:
+        if boxes is None or len(boxes) == 0:
             return []
 
         bbox_xyxy = boxes.xyxy.cpu().numpy()
@@ -82,9 +82,9 @@ class DeepSortTracker:
             cls_id = int(cls_ids[i])
             # class_name = names[cls_id]
 
-            x1, y1, x2, y2 = bbox_xyxy[i]
-            x_c, y_c, w, h = bbox_xywh[i]
-            
+            x1, y1, x2, y2 = bbox_xyxy[i] # top-left
+            x_c, y_c, w, h = bbox_xywh[i] # center
+            # if this doesn't work then switch to function call from bbox_utils.py
             results.append((
                 [x1, y1, w, h],
                 float(conf[i]),
@@ -111,7 +111,7 @@ class DeepSortTracker:
             if not track.is_confirmed():
                 continue
 
-            bbox = track.to_ltrb()
+            bbox = track.to_ltrb() # left top right bottom (x1, y1, x2, y2)
             track_id = int(track.track_id)
             class_name = track.get_det_class()
             
