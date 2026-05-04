@@ -16,6 +16,16 @@ class DeepSortTracker:
             max_iou_distance=max_iou_distance, # Fallback matching using IoU when appearance fails
             nms_max_overlap=nms_max_overlap # Removes duplicates based on IoU overlap
         )
+        # embedder : Optional[str] = 'mobilenet'
+        #     Whether to use in-built embedder or not. If None, then embeddings must be given during update.
+        #     Choice of ['mobilenet', 'torchreid', 'clip_RN50', 'clip_RN101', 'clip_RN50x4', 'clip_RN50x16', 'clip_ViT-B/32', 'clip_ViT-B/16']
+        # embedder_model_name: Optional[str] = None
+        #     Only used when embedder=='torchreid'. This provides which model to use within torchreid library. Check out torchreid's model zoo.
+        # embedder_wts: Optional[str] = None
+        #     Optional specification of path to embedder's model weights. 
+        #     Will default to looking for weights in `deep_sort_realtime/embedder/weights`. 
+        #     If deep_sort_realtime is installed as a package and CLIP models is used as embedder, 
+        #      best to provide path.
 
     def update(self, detections, frame):
         return self.tracker.update_tracks(detections, frame=frame)
