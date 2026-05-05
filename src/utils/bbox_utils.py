@@ -35,7 +35,7 @@ class BboxUtils:
         # Return the IoU
         return interArea / unionArea
     
-    def xyxy_to_xywh(xyxy):
+    def xyxy_to_xywh(self, xyxy):
         x1, y1, x2, y2 = xyxy
         
         if x2 < x1 or y2 < y1:
@@ -47,14 +47,14 @@ class BboxUtils:
         return [x1, y1, w, h]
     
     # top-left
-    def xywh_to_xyxy_yolo(xywh):
+    def xywh_to_xyxy_yolo(self, xywh):
         x1, y1, w, h = xywh
         y2 = y1 + h
         x2 = x1 + w
         return [x1, y1, x2, y2]
     
     # center
-    def xywh_to_xyxy_coco(xywh):
+    def xywh_to_xyxy_coco(self, xywh):
         x_c, y_c, w, h = xywh
         x1 = x_c - w / 2
         y1 = y_c - h / 2
