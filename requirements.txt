@@ -1,5 +1,5 @@
 
-
+ipywidgets
 pyyaml
 python-dotenv
 

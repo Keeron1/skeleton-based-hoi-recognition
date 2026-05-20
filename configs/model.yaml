@@ -1,7 +1,7 @@
 # For Object detector, tracker, ...
 yolo:
   model_type: yolov8m
-  pretrained: yolov8m
+  pretrained: yolov8m.pt
   imgsz: 1280
 
 hrnet:
