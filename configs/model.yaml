@@ -1,14 +1,19 @@
 # For Object detector, tracker, ...
 yolo:
-  model_type: yolov8m
+  model_type: best.pt
   pretrained: yolov8m.pt
   imgsz: 1280
 
 hrnet:
   w32_256x192_coco:
-    model_cfg : configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py
-    model_ckpt : https://download.openmmlab.com/mmpose/v1/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192-81c58e40_20220909.pth
-  
+    # model_cfg : configs/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py
+    # model_ckpt : https://download.openmmlab.com/mmpose/v1/body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192-81c58e40_20220909.pth
+    model_cfg : body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_8xb64-210e_coco-256x192.py
+    model_ckpt : td-hm_hrnet-w32_8xb64-210e_coco-256x192-81c58e40_20220909.pth
+  w32_udp_256x192_coco:
+    model_cfg : body_2d_keypoint/topdown_heatmap/coco/td-hm_hrnet-w32_udp-8xb64-210e_coco-256x192.py
+    model_ckpt : td-hm_hrnet-w32_udp-8xb64-210e_coco-256x192-73ede547_20220914.pth
+
 deepsort:
   max_age : 30 # default 30
   n_init : 2 # default 3
@@ -16,3 +21,40 @@ deepsort:
   max_cosine_distance : 0.2 # default 0.2
   nms_max_overlap : 1.0 # default 1.0
   max_iou_distance : 0.6 # default 0.7
+
+# Skeleton + object node GNN. Same windowing as LSTM so paired comparison.
+gnn:
+  model_ckpt : final.pt
+  seq_len : 16
+  stride : 8
+  hidden : 64
+  heads : 4
+  dropout : 0.1
+  lr : 0.001
+  weight_decay : 0.0001
+  batch_size : 32
+  epochs : 50
+  patience : 10
+  # Training augmentations. Set probabilities to 0 to disable.
+  hflip_p : 0.5
+  jitter_std : 0.02
+  obj_dropout_p : 0.1
+
+lstm:
+  seq_len : 16
+  stride : 8
+  hidden : 64
+  num_layers : 2
+  dropout : 0.3
+  lr : 0.001
+  batch_size : 32
+  epochs : 50
+
+# Single frame MLP
+mlp:
+  hidden : 64
+  dropout : 0.3
+  sample_every : 4
+  lr : 0.001
+  batch_size : 64
+  epochs : 50

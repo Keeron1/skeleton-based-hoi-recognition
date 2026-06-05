@@ -4,4 +4,8 @@ venv
 data/raw/CafeV1
 **/__pycache__
 *.pt
+*.pth
 !models/yolo/*
+!models/hrnet/*
+!models/gnn/*
+outputs/videos/*

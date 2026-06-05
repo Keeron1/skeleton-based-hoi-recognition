@@ -11,11 +11,11 @@ class YOLODetector:
         # Display model information
         self.model.info()
 
-    def predict(self, frame):
+    def predict(self, frame, save=False, verbose=True):
         results = self.model(
-            source=frame, 
-            save=True, 
-            verbose=True
+            source=frame,
+            save=save,
+            verbose=verbose
         )
         return results
     

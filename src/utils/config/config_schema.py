@@ -10,7 +10,7 @@ class HrNetConfig:
 class YOLOConfig:
     model_path: Path
     imgsz: int
-    
+
 @dataclass
 class DeepSORTConfig:
     max_age: int
@@ -19,6 +19,43 @@ class DeepSORTConfig:
     max_cosine_distance: float
     nms_max_overlap: float
     max_iou_distance: float
+
+@dataclass
+class GNNConfig:
+    model_ckpt: Path
+    seq_len: int
+    stride: int
+    hidden: int
+    heads: int
+    dropout: float
+    lr: float
+    weight_decay: float
+    batch_size: int
+    epochs: int
+    patience: int
+    hflip_p: float
+    jitter_std: float
+    obj_dropout_p: float
+
+@dataclass
+class LSTMConfig:
+    seq_len: int
+    stride: int
+    hidden: int
+    num_layers: int
+    dropout: float
+    lr: float
+    batch_size: int
+    epochs: int
+
+@dataclass
+class MLPConfig:
+    hidden: int
+    dropout: float
+    sample_every: int
+    lr: float
+    batch_size: int
+    epochs: int
 
 @dataclass
 class PathsConfig:
@@ -34,3 +71,6 @@ class AppConfig:
     yolo: YOLOConfig
     deepsort: DeepSORTConfig
     hrnet: HrNetConfig
+    gnn: GNNConfig
+    lstm: LSTMConfig
+    mlp: MLPConfig

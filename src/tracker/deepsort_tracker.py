@@ -46,31 +46,20 @@ class DeepSortTracker:
         cls_ids = boxes.cls.cpu().numpy()
         names = results[0].names
 
+        # DeepSORT expects ([left, top, w, h], conf, class) as a 3-tuple
         for i in range(len(bbox_xywh)):
             cls_id = int(cls_ids[i])
             class_name = names[cls_id]
-            
-            # Sort human and non-human
-            if class_name != "person":
-                x1, y1, x2, y2 = bbox_xyxy[i]
-                object_detections.append((
-                    [x1, y1, x2, y2],
-                    float(conf[i]),
-                    class_name
-                ))
-                continue
 
             x_c, y_c, w, h = bbox_xywh[i]
             x1 = x_c - w / 2
             y1 = y_c - h / 2
-            
-            human_detections.append((
-                [x1, y1, w, h],
-                float(conf[i]),
-                # int(cls_ids[i])
-                class_name,
-                cls_id
-            ))
+            det = ([x1, y1, w, h], float(conf[i]), class_name)
+
+            if class_name == "person":
+                human_detections.append(det)
+            else:
+                object_detections.append(det)
 
         return human_detections, object_detections
     
@@ -136,7 +125,28 @@ class DeepSortTracker:
         }
     
     def run_deepsort(self, detections, frame):
-        deepsort_results = self.tracker.update(detections, frame)
+        deepsort_results = self.update(detections, frame)
         return self.extract_deepsort_results(deepsort_results)
+
+    def extract_split_results(self, deepsort_results):
+        persons = []
+        objects = []
+        for track in deepsort_results:
+            if not track.is_confirmed():
+                continue
+
+            bbox = track.to_ltrb()
+            track_id = int(track.track_id)
+            class_name = track.get_det_class()
+
+            if class_name == "person":
+                persons.append((track_id, bbox))
+            else:
+                objects.append((track_id, bbox, class_name))
+        return persons, objects
+
+    def run_split(self, detections, frame):
+        deepsort_results = self.update(detections, frame)
+        return self.extract_split_results(deepsort_results)
         
         

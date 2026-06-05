@@ -1,3 +1,5 @@
+from pathlib import Path
+import mmpose
 from mmpose.apis import init_model, inference_topdown
 
 # https://mmpose.readthedocs.io/en/latest/model_zoo/body_2d_keypoint.html#topdown-heatmap-hrnet-on-coco
@@ -7,7 +9,9 @@ from mmpose.apis import init_model, inference_topdown
 class HrNetPose:
     def __init__(self, model_cfg, ckpt, device):
         # config path, model weights, device where the anchors will be put
-        self.model = init_model(model_cfg, ckpt, device)
+        cfg_path = Path(mmpose.__file__).parent / ".mim" / "configs" / model_cfg
+
+        self.model = init_model(str(cfg_path), str(ckpt), device)
 
     def infer(self, frame, bboxes):
         if len(bboxes) == 0:

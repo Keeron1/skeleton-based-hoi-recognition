@@ -3,7 +3,10 @@ import yaml
 from dotenv import load_dotenv
 from pathlib import Path
 import torch
-from .config_schema import AppConfig, PathsConfig, YOLOConfig, DeepSORTConfig, HrNetConfig
+from .config_schema import (
+    AppConfig, PathsConfig, YOLOConfig, DeepSORTConfig, HrNetConfig,
+    GNNConfig, LSTMConfig, MLPConfig,
+)
 
 # Load .env file
 load_dotenv()
@@ -63,7 +66,7 @@ class Config:
         models_dir = self.project_root / self.get("paths", "models")
 
         # Gets the path where the model will load or download from
-        yolo_model_type = models_dir / self.get("model", "yolo.model_type") 
+        yolo_model_type = models_dir / "yolo" / self.get("model", "yolo.model_type") 
         yolo_imgsz = self.get("model", "yolo.imgsz")
 
         deepsort_max_age = self.get("model", "deepsort.max_age")
@@ -73,10 +76,14 @@ class Config:
         deepsort_nms_max_overlap = self.get("model", "deepsort.nms_max_overlap")
         deepsort_max_iou_distance = self.get("model", "deepsort.max_iou_distance")
 
-        # should be able to download these and store in models folder instead of online
-        hrnet_model_cfg = self.get("model", "hrnet.w32_256x192_coco.model_cfg")
-        hrnet_model_ckpt = self.get("model", "hrnet.w32_256x192_coco.model_ckpt")
-        
+        hrnet_model_cfg = self.get("model", "hrnet.w32_udp_256x192_coco.model_cfg")
+        hrnet_model_ckpt = models_dir / "hrnet" / self.get("model", "hrnet.w32_udp_256x192_coco.model_ckpt")
+
+        gnn = dict(self.configs["model"]["gnn"])
+        gnn["model_ckpt"] = models_dir / "gnn" / gnn["model_ckpt"]
+        lstm = self.configs["model"]["lstm"]
+        mlp = self.configs["model"]["mlp"]
+
         return AppConfig(
             project_root=self.project_root,
             device=device,
@@ -100,6 +107,9 @@ class Config:
             hrnet=HrNetConfig(
                 model_cfg=hrnet_model_cfg,
                 model_ckpt=hrnet_model_ckpt
-            )
+            ),
+            gnn=GNNConfig(**gnn),
+            lstm=LSTMConfig(**lstm),
+            mlp=MLPConfig(**mlp),
         )
         

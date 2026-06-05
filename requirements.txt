@@ -8,3 +8,5 @@ opencv-python<4.10
 deep-sort-realtime
 
 numpy>=1.26,<2
+motmetrics
+scikit-learn>=1.3
