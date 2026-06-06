@@ -52,8 +52,20 @@ outputs/            generated videos
 ```
 
 ## Dataset
+This prototype is built on the **CAFE dataset** ([dk-kim/CAFE_codebase](https://github.com/dk-kim/CAFE_codebase)), a publicly available collection of café surveillance footage. 
+If you use the dataset, please cite the original authors:
+```bibtex
+  @article{kim2023towards,
+    title={Towards More Practical Group Activity Detection: A New Benchmark and Model},
+    author={Kim, Dongkeun and Song, Youngkil and Cho, Minsu and Kwak, Suha},
+    journal={arXiv preprint arXiv:2312.02878},
+    year={2023}
+  }
+  ```
 
 The CAFE dataset is not included in the repository. Set `DATA_ROOT` as an environment variable to point at the dataset root. Clips are expected at `<DATA_ROOT>/processed/CafeV1/Clips/<viewpoint>/<clip>/`.
+
+Use of the CAFE dataset is subject to the original authors' licence terms, separate from the licence of this prototype.
 
 ## License
 
